@@ -1,0 +1,44 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: monospace;
+}
+
+*:focus {
+    outline: none;
+}
+
+:root {
+    --BLACK: #1d1f21;
+    --WHITE: #c5c8c6;
+    --DARK_GREY: #373b41;
+    --MED_GREY: #373b41;
+    --LIGHT_GREY: #707880;
+    --RED: #a54242;
+    --LIGHT_RED: #cc6666;
+    --GREEN: #8c9440;
+    --LIGHT_GREEN: #b5bd68;
+    --ORANGE: #de935f;
+    --YELLOW: #f0c674;
+    --BLUE: #5f819d;
+    --LIGHT_BLUE: #81a2be;
+    --MAGENTA: #85678f;
+    --LIGHT_MAGENTA: #b294bb;
+    --TEAL: #5e8d87;
+    --LIGHT_TEAL: #8abeb7;
+
+    --HOVER: var(--GREEN);
+    --FORGROUND: var(--WHITE);
+    --BACKGROUND: var(--BLACK);
+
+}
+
+body{
+    background-color: var(--BACKGROUND);
+    width: 100%;
+    height: 100vh;
+}
+
+
+
