@@ -31,6 +31,14 @@
     --HOVER: var(--GREEN);
     --FORGROUND: var(--WHITE);
     --BACKGROUND: var(--BLACK);
+    --BUTTON: var(--WHITE);
+    --ACTIVE: var(--LIGHT_BLUE);
+
+    --BUTTON-HEIGHT: 80px;
+    /*  button height * 6  */
+    --KEYBOARD-HEIGHT: 480px;
+    /*  button height * 5  */
+    --KEYBOARD-WIDTH: 400px;
 
 }
 
@@ -42,3 +50,79 @@ body{
 
 
 
+/* --------- keyboard ------------ */
+
+#keyboard{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: var(--KEYBOARD-WIDTH);
+    height: var(--KEYBOARD-HEIGHT);
+}
+
+#keyboard .horizontal-holder{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+#keyboard .bit-operator-holder{
+    flex: 1;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#keyboard .operator-holder{
+    flex: 1;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#keyboard .keyboard-holder{
+    flex: 3;
+    height: 100%;
+}
+
+#keyboard .keyboard-table{
+    height: 100%;
+    width: 100%;
+}
+
+#keyboard .keyboard-table .row{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#keyboard .button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--BUTTON-HEIGHT);
+    width: 100%;
+    font-size: 20px;
+    background-color: var(--BUTTON);
+    border: 1px var(--BLACK) solid;
+}
+
+#keyboard .button p{
+    user-select: none;
+}
+
+#keyboard .button:hover{
+    /*background-color: var(--HOVER);*/
+    cursor: pointer;
+}
+
+#keyboard .button:active{
+    background-color: var(--ACTIVE);
+}
+
+#keyboard .spec{
+    background-color: var(--ORANGE);
+}
+
+#keyboard .hold{
+    background-color: var(--LIGHT_BLUE);
+}
