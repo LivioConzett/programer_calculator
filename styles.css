@@ -170,3 +170,8 @@ body{
 #keyboard .hold{
     background-color: var(--LIGHT_BLUE);
 }
+
+#keyboard .disable{
+    background-color: var(--LIGHT_GREY);
+    pointer-events: none;
+}

@@ -110,6 +110,7 @@ function changeNumberType(button){
 
     const buttons = document.querySelectorAll(".num-type");
 
+
     for(let i = 0; i < buttons.length; i++){
         buttons[i].classList.remove("hold");
     }
@@ -142,6 +143,37 @@ function changeNumberType(button){
         INPUT_FIELD_PREV.innerHTML = number2.toString(g_numberType).toUpperCase();
     }
 
+    disableNumButtons();
+
+}
+
+/**
+ * Disable the number buttons according to the numbertype chosen.
+ */
+function disableNumButtons(){
+
+    const nonBinButtons = document.querySelectorAll(".notBin");
+    const nonHexButtons = document.querySelectorAll(".notDec");
+
+
+    for(let i = 0; i < nonBinButtons.length; i++){
+        nonBinButtons[i].classList.remove("disable");
+    }
+    for(let i = 0; i < nonHexButtons.length; i++){
+        nonHexButtons[i].classList.remove("disable");
+    }
+
+    if(g_numberType === 2){
+        for(let i = 0; i < nonBinButtons.length; i++){
+            nonBinButtons[i].classList.add("disable");
+        }
+    }
+
+    if(g_numberType === 10){
+        for(let i = 0; i < nonHexButtons.length; i++){
+            nonHexButtons[i].classList.add("disable");
+        }
+    }
 }
 
 
