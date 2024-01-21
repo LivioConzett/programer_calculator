@@ -215,7 +215,15 @@ function doCalculation(){
 
     if(result === "@") return;
 
-    INPUT_FIELD_PREV.innerHTML = result.toString(g_numberType).toUpperCase();
+    //todo: use a mask with AND to cut off all that is not within the realms of the
+    // system (9bit, 16bit, 32bit, 64bit)
+
+    //todo: have to option to show minus or full number -2 vs FFE
+
+    // needed to show the minus correctly in binary
+    let answer = (result >>> 0).toString(g_numberType);
+
+    INPUT_FIELD_PREV.innerHTML = answer.toUpperCase();
     INPUT_FIELD.innerHTML = "";
     OPERATOR_FIELD.innerHTML = "";
 
