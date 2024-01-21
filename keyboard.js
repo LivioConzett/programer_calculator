@@ -6,6 +6,7 @@ const OPERATOR_FIELD = document.querySelector("#operator p");
 const CLEAR_BUTTON = document.querySelector("#keyboard #clear p");
 
 let g_numberType = 16;
+let g_operator = "";
 
 /**
  * Initialize the keyboard
@@ -38,8 +39,8 @@ function setClearButton(text){
  */
 function inputAppend(text){
 
-    //todo: add a checker to make sure only the characters allowed in the system
-    // are added. eg: HEX BIN DEC
+    //todo: use a mask with AND to cut off all that is not within the realms of the
+    // system (9bit, 16bit, 32bit, 64bit)
 
     INPUT_FIELD.innerHTML = INPUT_FIELD.innerHTML + text
     setClearButton('C');
@@ -97,6 +98,7 @@ function setOperator(operator){
     if(INPUT_FIELD_PREV.innerHTML === "") return;
 
     OPERATOR_FIELD.innerHTML = operator;
+    g_operator = operator;
 }
 
 /**
@@ -187,12 +189,27 @@ function doCalculation(){
 
     let result = "@";
 
-    switch(OPERATOR_FIELD.innerHTML){
+    switch(g_operator){
         case "+":
             result = doPlus(number1, number2);
             break;
         case "-":
             result = doMinus(number1, number2);
+            break;
+        case "AND":
+            result = doAnd(number1, number2);
+            break;
+        case "OR":
+            result = doOr(number1, number2);
+            break;
+        case "XOR":
+            result = doXor(number1, number2);
+            break;
+        case "<<":
+            result = doLSh(number1, number2);
+            break;
+        case ">>":
+            result = doRSh(number1, number2);
             break;
     }
 
@@ -212,6 +229,28 @@ function doPlus(number1, number2){
 
 function doMinus(number1, number2){
     return number1 - number2;
+}
+
+function doAnd(number1, number2){
+    return number1 & number2;
+}
+
+function doOr(number1, number2){
+    return number1 | number2;
+}
+
+function doXor(number1, number2){
+    return number1 ^ number2;
+}
+
+function doLSh(number1, number2){
+    let ans =  number1 << number2;
+    console.log(`${number1} << ${number2} == ${ans}`);
+    return ans;
+}
+
+function doRSh(number1, number2){
+    return number1 >> number2;
 }
 
 /**
