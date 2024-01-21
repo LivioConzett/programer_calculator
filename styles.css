@@ -117,13 +117,7 @@ body{
     width: 100%;
 }
 
-#keyboard .bit-operator-holder{
-    flex: 1;
-    height: 100%;
-    overflow-y: scroll;
-}
-
-#keyboard .operator-holder{
+#keyboard .scroll-holder{
     flex: 1;
     height: 100%;
     overflow-y: scroll;

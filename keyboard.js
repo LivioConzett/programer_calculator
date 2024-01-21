@@ -5,7 +5,7 @@ const INPUT_FIELD_PREV = document.getElementById("prev-input");
 const OPERATOR_FIELD = document.querySelector("#operator p");
 const CLEAR_BUTTON = document.querySelector("#keyboard #clear p");
 
-let numberType = 16;
+let g_numberType = 16;
 
 /**
  * Initialize the keyboard
@@ -100,12 +100,58 @@ function setOperator(operator){
 }
 
 /**
+ * Change the number type
+ * @param button
+ */
+function changeNumberType(button){
+    const type = button.dataset.command;
+
+    const prevNumType = g_numberType;
+
+    const buttons = document.querySelectorAll(".num-type");
+
+    for(let i = 0; i < buttons.length; i++){
+        buttons[i].classList.remove("hold");
+    }
+
+    button.classList.add("hold");
+
+    switch(type){
+        case "BIN":
+            g_numberType = 2;
+            break;
+        case "DEC":
+            g_numberType = 10;
+            break;
+        case "HEX":
+            g_numberType = 16;
+            break;
+    }
+
+    // get the number fo the inputs
+    let number1 = INPUT_FIELD.innerHTML;
+    let number2 = INPUT_FIELD_PREV.innerHTML;
+
+    if(number1 !== ""){
+        number1 = parseInt(number1, prevNumType);
+        INPUT_FIELD.innerHTML = number1.toString(g_numberType).toUpperCase();
+    }
+
+    if(number2 !== ""){
+        number2 = parseInt(number2, prevNumType);
+        INPUT_FIELD_PREV.innerHTML = number2.toString(g_numberType).toUpperCase();
+    }
+
+}
+
+
+/**
  * Do the calculation
  */
 function doCalculation(){
 
-    const number1 = parseInt(INPUT_FIELD_PREV.innerHTML, numberType);
-    const number2 = parseInt(INPUT_FIELD.innerHTML, numberType);
+    const number1 = parseInt(INPUT_FIELD_PREV.innerHTML, g_numberType);
+    const number2 = parseInt(INPUT_FIELD.innerHTML, g_numberType);
 
     let result = "@";
 
@@ -120,7 +166,7 @@ function doCalculation(){
 
     if(result === "@") return;
 
-    INPUT_FIELD_PREV.innerHTML = result.toString(numberType).toUpperCase();
+    INPUT_FIELD_PREV.innerHTML = result.toString(g_numberType).toUpperCase();
     INPUT_FIELD.innerHTML = "";
     OPERATOR_FIELD.innerHTML = "";
 
@@ -184,6 +230,11 @@ function handleClick(button){
             break;
         case "=":
             doCalculation();
+            break;
+        case "BIN":
+        case "DEC":
+        case "HEX":
+            changeNumberType(button);
             break;
     }
 }
