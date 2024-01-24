@@ -13,6 +13,11 @@ let g_inputText = "";
 let g_op1 = 0;
 let g_op2 = 0;
 
+
+//todo: Store the g_op as binary string. Write own converter between the different types.
+// write own math functions to do the math bitwise.
+
+
 /**
  * Initialize the keyboard
  */
@@ -40,8 +45,6 @@ function init(){
  * @param text text to append
  */
 function inputAppend(text){
-
-    console.log(text);
 
     g_inputText = g_inputText + text;
 
@@ -109,7 +112,7 @@ function setOp1(){
     let number = parseInt(g_inputText, g_numberType);
     number = cutOffNumber(number, g_bitType);
     g_op1 = number;
-    let text = padBin(number.toString(2), g_bitType);
+    let text = padBin((number >>> 0).toString(2), g_bitType);
     OPERATOR_1.innerHTML = formatNumber(text, 8, " ");
 }
 
@@ -120,7 +123,7 @@ function setOp2(){
     let number = parseInt(g_inputText, g_numberType);
     number = cutOffNumber(number, g_bitType);
     g_op2 = number;
-    let text = padBin(number.toString(2), g_bitType);
+    let text = padBin((number >>> 0).toString(2), g_bitType);
     OPERATOR_2.innerHTML = formatNumber(text, 8, " ");
 }
 
@@ -210,7 +213,7 @@ function changeNumberType(button){
  */
 function convertNumberType(number, from, to){
     let x = parseInt(number, from);
-    return x.toString(to).toUpperCase();
+    return (x >>> 0).toString(to).toUpperCase();
 }
 
 /**
