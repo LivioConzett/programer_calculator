@@ -54,10 +54,24 @@ body{
 
 /* ------- screen ------------ */
 #screen{
+    position: absolute;
+    top: 100px;
+    left: 420px;
+    width: 1000px;
+    height: 200px;
+    background-color: red;
+}
+
+#screen .vertical-holder{
+    display: flex;
+    flex-direction: column;
 
 }
 
-
+#screen .horizontal-holder{
+    display: flex;
+    flex-direction: row;
+}
 
 
 /* --------- keyboard ------------ */

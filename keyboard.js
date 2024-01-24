@@ -3,11 +3,15 @@
 const INPUT_FIELD = document.querySelector("#keyboard .input");
 const CLEAR_BUTTON = document.querySelector("#keyboard #clear");
 const BIT_TYPE = document.querySelector("#keyboard .bittype-input");
+const OPERATOR_1 = document.getElementById("operator1");
+const OPERATOR_2 = document.getElementById("operator2");
 
 let g_numberType = 16;
-let g_operator = "";
+let g_command = "";
 let g_bitType = 8;
 let g_inputText = "";
+let g_op1 = 0;
+let g_op2 = 0;
 
 /**
  * Initialize the keyboard
@@ -72,28 +76,92 @@ function setInputField(){
     if(g_numberType === 10) distance = 3;
     if(g_numberType === 2) distance = 8;
 
-    let text = "";
-    let counter = 0;
-
-    for(let i = g_inputText.length-1; i >= 0; i--){
-        if(counter >= distance){
-            text = "'" + text;
-            counter = 0;
-        }
-        text = g_inputText.charAt(i) + text;
-        counter ++
-    }
-
-    INPUT_FIELD.innerHTML = text;
+    INPUT_FIELD.innerHTML = formatNumber(g_inputText, distance, "'");
 
 }
 
 /**
- * Set the operator to do
- * @param operator operator to do
+ * Format a number with symbols
+ * @param number number to format
+ * @param distance after how many chars should the symbol come
+ * @param symbol symbol to place
  */
-function setOperator(operator){
-    console.log(operator);
+function formatNumber(number, distance, symbol){
+    let text = "";
+    let counter = 0;
+
+    for(let i = number.length-1; i >= 0; i--){
+        if(counter >= distance){
+            text = "'" + text;
+            counter = 0;
+        }
+        text = number.charAt(i) + text;
+        counter ++
+    }
+
+    return text;
+}
+
+/**
+ * Sets the op1 to what is in the input
+ */
+function setOp1(){
+    let number = parseInt(g_inputText, g_numberType);
+    number = cutOffNumber(number, g_bitType);
+    g_op1 = number;
+    let text = padBin(number.toString(2), g_bitType);
+    OPERATOR_1.innerHTML = formatNumber(text, 8, " ");
+}
+
+/**
+ * Sets the op2 to what is in the input
+ */
+function setOp2(){
+    let number = parseInt(g_inputText, g_numberType);
+    number = cutOffNumber(number, g_bitType);
+    g_op2 = number;
+    let text = padBin(number.toString(2), g_bitType);
+    OPERATOR_2.innerHTML = formatNumber(text, 8, " ");
+}
+
+/**
+ * Cut off a number at a certain amount of bits
+ * @param number number to cut off
+ * @param bits after how many bits to cut off
+ */
+function cutOffNumber(number, bits){
+    let bin = "";
+
+    for(let i = 0; i < bits; i++){
+        bin += "1";
+    }
+
+    bin = parseInt(bin, 2);
+
+    return number & bin;
+}
+
+/**
+ * Set the command to do
+ * @param command command to do
+ */
+function setCommand(command){
+    console.log(command);
+}
+
+/**
+ * Pads a number out with 0 in the beginning
+ * @param text text to pad
+ * @param amount to how many characters should the number be padded out
+ */
+function padBin(text, amount){
+    let length = text.length;
+
+    for(let i = length; i < amount; i ++){
+        text = "0"+text;
+    }
+
+    return text;
 }
 
 /**
@@ -180,8 +248,8 @@ function disableNumButtons(){
 function decrementBitType(){
     g_bitType --;
 
-    if(g_bitType < 0){
-        g_bitType = 0;
+    if(g_bitType < 1){
+        g_bitType = 1;
     }
 
     setBtType(null)
@@ -231,7 +299,7 @@ function doCalculation(){
 
     let result = "@";
 
-    switch(g_operator){
+    switch(g_command){
         case "+":
             result = doPlus(number1, number2);
             break;
@@ -336,7 +404,7 @@ function handleClick(button){
         case ">>":
         case "R<<":
         case "R>>":
-            setOperator(button.dataset.command)
+            setCommand(button.dataset.command)
             break;
         case "DEL":
             inputDelLast();
@@ -364,6 +432,13 @@ function handleClick(button){
         case "set64":
             setBtType(button);
             break;
+        case "op1":
+            setOp1();
+            break;
+        case "op2":
+            setOp2();
+            break;
+
 
     }
 }
