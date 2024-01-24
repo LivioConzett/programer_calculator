@@ -35,8 +35,8 @@
     --ACTIVE: var(--LIGHT_BLUE);
 
     --BUTTON-HEIGHT: 80px;
-    /*  button height * 7  */
-    --KEYBOARD-HEIGHT: 560px;
+    /*  button height * 8  */
+    --KEYBOARD-HEIGHT: 640px;
     /*  button height * 6  */
     --KEYPAD-HEIGHT: 480px;
     /*  button height * 5  */
@@ -53,50 +53,8 @@ body{
 
 
 /* ------- screen ------------ */
-
 #screen{
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
 
-#screen .horizontal{
-    display: flex;
-    flex-direction: row;
-}
-
-#screen .vertical{
-    display: flex;
-    flex-direction: column;
-}
-
-#prev-input{
-    width: 300px;
-    height: 1em;
-    color: var(--WHITE);
-    font-size: 30px;
-    text-align: end;
-    line-height: 30px;
-}
-
-#input{
-    width: 300px;
-    height: 1em;
-    color: var(--WHITE);
-    border-bottom: 2px solid var(--WHITE);
-    font-size: 30px;
-    line-height: 30px;
-    text-align: end;
-}
-
-#screen #operator{
-    width: var(--BUTTON-HEIGHT);
-    height: var(--BUTTON-HEIGHT);
-    color: var(--WHITE);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
 }
 
 
@@ -106,10 +64,19 @@ body{
 
 #keyboard{
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    top: 10px;
+    left: 10px;
     width: var(--KEYBOARD-WIDTH);
     height: var(--KEYBOARD-HEIGHT);
+}
+
+#keyboard .input{
+    color: var(--WHITE);
+    font-size: 30px;
+    line-height: 30px;
+    width: 100%;
+    height: var(--BUTTON-HEIGHT);
+    /*text-align: end;*/
 }
 
 #keyboard .bittype-holder{
@@ -181,8 +148,8 @@ body{
     height: 40px;
 }
 
-#keyboard .button p{
-    user-select: none;
+#keyboard .button-halfer{
+    width: 100%;
 }
 
 #keyboard .button:hover{

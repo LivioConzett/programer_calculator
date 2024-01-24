@@ -1,14 +1,13 @@
 
 
-const INPUT_FIELD = document.getElementById("input");
-const INPUT_FIELD_PREV = document.getElementById("prev-input");
-const OPERATOR_FIELD = document.querySelector("#operator p");
-const CLEAR_BUTTON = document.querySelector("#keyboard #clear p");
+const INPUT_FIELD = document.querySelector("#keyboard .input");
+const CLEAR_BUTTON = document.querySelector("#keyboard #clear");
 const BIT_TYPE = document.querySelector("#keyboard .bittype-input");
 
 let g_numberType = 16;
 let g_operator = "";
 let g_bitType = 8;
+let g_inputText = "";
 
 /**
  * Initialize the keyboard
@@ -32,65 +31,61 @@ function init(){
 
 }
 
-function setClearButton(text){
-    CLEAR_BUTTON.innerHTML = text;
-}
-
 /**
  * Append text to the end of the input
  * @param text text to append
  */
 function inputAppend(text){
 
-    //todo: use a mask with AND to cut off all that is not within the realms of the
-    // system (9bit, 16bit, 32bit, 64bit)
+    console.log(text);
 
-    INPUT_FIELD.innerHTML = INPUT_FIELD.innerHTML + text
-    setClearButton('C');
+    g_inputText = g_inputText + text;
+
+    setInputField();
+
 }
 
 /**
  * Delete the last char in the input
  */
 function inputDelLast(){
-    let text = INPUT_FIELD.innerHTML;
+    g_inputText = g_inputText.substring(0, g_inputText.length - 1);
 
-    text = text.substring(0, text.length - 1);
-
-    INPUT_FIELD.innerHTML = text;
-
-    if(text === ""){
-        setClearButton('AC');
-    }
+    setInputField();
 }
 
 /**
  * Clear the inputfield
  */
 function inputClear(){
+    g_inputText = "";
 
-    console.log(CLEAR_BUTTON.innerHTML);
-
-    if(CLEAR_BUTTON.innerHTML === "C"){
-        INPUT_FIELD.innerHTML = "";
-        setClearButton('AC');
-    }
-    else if(CLEAR_BUTTON.innerHTML === "AC"){
-        OPERATOR_FIELD.innerHTML = "";
-        INPUT_FIELD_PREV.innerHTML = "";
-        INPUT_FIELD.innerHTML = "";
-    }
+    setInputField();
 }
 
 /**
- * Moves the value of the input to the prev input field
+ * Set and format the input text
  */
-function movInputToPervInput(){
-    if(INPUT_FIELD.innerHTML === "") return;
-    if(INPUT_FIELD_PREV.innerHTML !== "") return;
+function setInputField(){
 
-    INPUT_FIELD_PREV.innerHTML = INPUT_FIELD.innerHTML;
-    INPUT_FIELD.innerHTML = "";
+    let distance = 2;
+    if(g_numberType === 10) distance = 3;
+    if(g_numberType === 2) distance = 8;
+
+    let text = "";
+    let counter = 0;
+
+    for(let i = g_inputText.length-1; i >= 0; i--){
+        if(counter >= distance){
+            text = "'" + text;
+            counter = 0;
+        }
+        text = g_inputText.charAt(i) + text;
+        counter ++
+    }
+
+    INPUT_FIELD.innerHTML = text;
+
 }
 
 /**
@@ -98,10 +93,7 @@ function movInputToPervInput(){
  * @param operator operator to do
  */
 function setOperator(operator){
-    if(INPUT_FIELD_PREV.innerHTML === "") return;
-
-    OPERATOR_FIELD.innerHTML = operator;
-    g_operator = operator;
+    console.log(operator);
 }
 
 /**
@@ -134,22 +126,23 @@ function changeNumberType(button){
             break;
     }
 
-    // get the number fo the inputs
-    let number1 = INPUT_FIELD.innerHTML;
-    let number2 = INPUT_FIELD_PREV.innerHTML;
-
-    if(number1 !== ""){
-        number1 = parseInt(number1, prevNumType);
-        INPUT_FIELD.innerHTML = number1.toString(g_numberType).toUpperCase();
-    }
-
-    if(number2 !== ""){
-        number2 = parseInt(number2, prevNumType);
-        INPUT_FIELD_PREV.innerHTML = number2.toString(g_numberType).toUpperCase();
+    if(g_inputText !== ""){
+        g_inputText = convertNumberType(g_inputText, prevNumType, g_numberType);
+        setInputField();
     }
 
     disableNumButtons();
+}
 
+/**
+ * Convert a number from a type to another type
+ * @param number number to convert
+ * @param from number type the number has
+ * @param to number type the number should be converted to
+ */
+function convertNumberType(number, from, to){
+    let x = parseInt(number, from);
+    return x.toString(to).toUpperCase();
 }
 
 /**
@@ -207,7 +200,10 @@ function incrementBitType(){
     setBtType(null);
 }
 
-
+/**
+ * Set the bittype
+ * @param button
+ */
 function setBtType(button){
     const buttons = document.querySelectorAll("#keyboard .bittype");
 
@@ -269,12 +265,9 @@ function doCalculation(){
     // needed to show the minus correctly in binary
     let answer = (result >>> 0).toString(g_numberType);
 
-    INPUT_FIELD_PREV.innerHTML = answer.toUpperCase();
     INPUT_FIELD.innerHTML = "";
-    OPERATOR_FIELD.innerHTML = "";
 
 }
-
 
 function doPlus(number1, number2){
     return number1 + number2;
@@ -343,7 +336,6 @@ function handleClick(button){
         case ">>":
         case "R<<":
         case "R>>":
-            movInputToPervInput();
             setOperator(button.dataset.command)
             break;
         case "DEL":
@@ -382,7 +374,7 @@ function handleClick(button){
  */
 function physicalKeyBoardHandler(key){
 
-    console.log(key);
+    // console.log(key);
 
     // todo: check for dec or bin set
 

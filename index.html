@@ -9,21 +9,11 @@
 <body>
 
 
-<div id="screen">
-    <div class="horizontal">
-        <div id="operator"><p></p></div>
-        <div class="vertical">
-            <div id="prev-input"></div>
-            <div id="input"></div>
-        </div>
-    </div>
-</div>
-
-
 
 <!--Keyboard-->
 <div id="keyboard">
 
+    <div class="input"></div>
     <div class="bittype-holder">
         <div class="bittype-horizontal">
             <div class="button bittype hold half-height" data-command="set8">8</div>
@@ -41,9 +31,21 @@
     <div class="horizontal-holder">
 
         <div class="scroll-holder">
-            <div class="button num-type" data-command="BIN">BIN</div>
-            <div class="button num-type" data-command="DEC">DEC</div>
-            <div class="button num-type hold" data-command="HEX">HEX</div>
+            <div id="clear" class="button spec" data-command="AC">C</div>
+            <div class="button spec" data-command="DEL">DEL</div>
+            <div class="button" data-command="NOT">NOT</div>
+            <div class="button" data-command="+">+</div>
+            <div class="button" data-command="-">-</div>
+            <div class="button" data-command="+C">+C</div>
+            <div class="button" data-command="-C">-C</div>
+
+            <div class="button" data-command="AND">AND</div>
+            <div class="button" data-command="OR">OR</div>
+            <div class="button" data-command="XOR">XOR</div>
+            <div class="button" data-command="<<"><<</div>
+            <div class="button" data-command=">>">>></div>
+            <div class="button" data-command="R<<">R<<</div>
+            <div class="button" data-command="R>>">R>></div>
         </div>
 
         <div class="keyboard-holder">
@@ -75,27 +77,21 @@
                 </div>
                 <div class="row">
                     <div class="button" data-command="0">0</div>
-                    <div class="button" data-command=".">.</div>
+                    <div class="button-halfer">
+                        <div class="button half-height spec" data-command="op1">op1</div>
+                        <div class="button half-height spec" data-command="op2">op2</div>
+                    </div>
                     <div class="button spec" data-command="=">=</div>
                 </div>
             </div>
         </div>
 
         <div class="scroll-holder">
-            <div id="clear" class="button spec" data-command="AC">C</div>
-            <div class="button spec" data-command="DEL">DEL</div>
-            <div class="button" data-command="+">+</div>
-            <div class="button" data-command="-">-</div>
-
-            <div class="button" data-command="NOT">NOT</div>
-            <div class="button" data-command="AND">AND</div>
-            <div class="button" data-command="OR">OR</div>
-            <div class="button" data-command="XOR">XOR</div>
-            <div class="button" data-command="<<"><<</div>
-            <div class="button" data-command=">>">>></div>
-            <div class="button" data-command="R<<">R<<</div>
-            <div class="button" data-command="R>>">R>></div>
+            <div class="button num-type" data-command="BIN">BIN</div>
+            <div class="button num-type" data-command="DEC">DEC</div>
+            <div class="button num-type hold" data-command="HEX">HEX</div>
         </div>
+
     </div>
 </div>
 
