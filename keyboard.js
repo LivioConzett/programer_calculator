@@ -4,9 +4,11 @@ const INPUT_FIELD = document.getElementById("input");
 const INPUT_FIELD_PREV = document.getElementById("prev-input");
 const OPERATOR_FIELD = document.querySelector("#operator p");
 const CLEAR_BUTTON = document.querySelector("#keyboard #clear p");
+const BIT_TYPE = document.querySelector("#keyboard .bittype-input");
 
 let g_numberType = 16;
 let g_operator = "";
+let g_bitType = 8;
 
 /**
  * Initialize the keyboard
@@ -26,6 +28,7 @@ function init(){
         physicalKeyBoardHandler(event.key);
     });
 
+    BIT_TYPE.innerHTML = g_bitType;
 
 }
 
@@ -178,6 +181,49 @@ function disableNumButtons(){
     }
 }
 
+/**
+ * Decrement the bit type
+ */
+function decrementBitType(){
+    g_bitType --;
+
+    if(g_bitType < 0){
+        g_bitType = 0;
+    }
+
+    setBtType(null)
+}
+
+/**
+ * increment the bit type
+ */
+function incrementBitType(){
+    g_bitType ++;
+
+    if(g_bitType > 64){
+        g_bitType = 64;
+    }
+
+    setBtType(null);
+}
+
+
+function setBtType(button){
+    const buttons = document.querySelectorAll("#keyboard .bittype");
+
+    for(let i = 0; i < buttons.length; i++){
+        buttons[i].classList.remove('hold');
+    }
+
+    if(button) {
+        button.classList.add('hold');
+        g_bitType = parseInt(button.innerHTML);
+    }
+
+    BIT_TYPE.innerHTML = g_bitType;
+
+}
+
 
 /**
  * Do the calculation
@@ -226,7 +272,6 @@ function doCalculation(){
     INPUT_FIELD_PREV.innerHTML = answer.toUpperCase();
     INPUT_FIELD.innerHTML = "";
     OPERATOR_FIELD.innerHTML = "";
-
 
 }
 
@@ -315,9 +360,21 @@ function handleClick(button){
         case "HEX":
             changeNumberType(button);
             break;
+        case "dec-bittype":
+            decrementBitType();
+            break;
+        case "inc-bittype":
+            incrementBitType();
+            break;
+        case "set8":
+        case "set16":
+        case "set32":
+        case "set64":
+            setBtType(button);
+            break;
+
     }
 }
-
 
 /**
  * Handle the input from the physical keyboard
@@ -326,6 +383,8 @@ function handleClick(button){
 function physicalKeyBoardHandler(key){
 
     console.log(key);
+
+    // todo: check for dec or bin set
 
     switch (key.toUpperCase()){
         case "0":

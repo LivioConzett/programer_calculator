@@ -35,8 +35,10 @@
     --ACTIVE: var(--LIGHT_BLUE);
 
     --BUTTON-HEIGHT: 80px;
+    /*  button height * 7  */
+    --KEYBOARD-HEIGHT: 560px;
     /*  button height * 6  */
-    --KEYBOARD-HEIGHT: 480px;
+    --KEYPAD-HEIGHT: 480px;
     /*  button height * 5  */
     --KEYBOARD-WIDTH: 400px;
 
@@ -110,10 +112,34 @@ body{
     height: var(--KEYBOARD-HEIGHT);
 }
 
+#keyboard .bittype-holder{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#keyboard .bittype-horizontal{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#keyboard .inc-dec-button{
+    flex: 1;
+}
+
+#keyboard .bittype-input{
+    flex: 3;
+    color: var(--WHITE);
+    font-size: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
 #keyboard .horizontal-holder{
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: var(--KEYPAD-HEIGHT);
     width: 100%;
 }
 
@@ -148,6 +174,11 @@ body{
     font-size: 20px;
     background-color: var(--BUTTON);
     border: 1px var(--BLACK) solid;
+    user-select: none;
+}
+
+#keyboard .half-height{
+    height: 40px;
 }
 
 #keyboard .button p{

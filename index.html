@@ -24,63 +24,77 @@
 <!--Keyboard-->
 <div id="keyboard">
 
+    <div class="bittype-holder">
+        <div class="bittype-horizontal">
+            <div class="button bittype hold half-height" data-command="set8">8</div>
+            <div class="button bittype half-height" data-command="set16">16</div>
+            <div class="button bittype half-height" data-command="set32">32</div>
+            <div class="button bittype half-height" data-command="set64">64</div>
+        </div>
+        <div class="bittype-horizontal">
+            <div class="button inc-dec-button half-height" data-command="dec-bittype">-</div>
+            <div class="bittype-input half-height">-2</div>
+            <div class="button inc-dec-button half-height" data-command="inc-bittype">+</div>
+        </div>
+    </div>
+
     <div class="horizontal-holder">
 
         <div class="scroll-holder">
-            <div class="button num-type" data-command="BIN"><p>BIN</p></div>
-            <div class="button num-type" data-command="DEC"><p>DEC</p></div>
-            <div class="button num-type hold" data-command="HEX"><p>HEX</p></div>
+            <div class="button num-type" data-command="BIN">BIN</div>
+            <div class="button num-type" data-command="DEC">DEC</div>
+            <div class="button num-type hold" data-command="HEX">HEX</div>
         </div>
 
         <div class="keyboard-holder">
             <div class="keyboard-table">
                 <div class="row">
-                    <div class="button notBin notDec" data-command="D"><p>D</p></div>
-                    <div class="button notBin notDec" data-command="E"><p>E</p></div>
-                    <div class="button notBin notDec" data-command="F"><p>F</p></div>
+                    <div class="button notBin notDec" data-command="D">D</div>
+                    <div class="button notBin notDec" data-command="E">E</div>
+                    <div class="button notBin notDec" data-command="F"><p>F</div>
                 </div>
                 <div class="row">
-                    <div class="button notBin notDec" data-command="A"><p>A</p></div>
-                    <div class="button notBin notDec" data-command="B"><p>B</p></div>
-                    <div class="button notBin notDec" data-command="C"><p>C</p></div>
+                    <div class="button notBin notDec" data-command="A">A</div>
+                    <div class="button notBin notDec" data-command="B">B</div>
+                    <div class="button notBin notDec" data-command="C">C</div>
                 </div>
                 <div class="row">
-                    <div class="button notBin" data-command="7"><p>7</p></div>
-                    <div class="button notBin" data-command="8"><p>8</p></div>
-                    <div class="button notBin" data-command="9"><p>9</p></div>
+                    <div class="button notBin" data-command="7">7</div>
+                    <div class="button notBin" data-command="8">8</div>
+                    <div class="button notBin" data-command="9">9</div>
                 </div>
                 <div class="row">
-                    <div class="button notBin" data-command="4"><p>4</p></div>
-                    <div class="button notBin" data-command="5"><p>5</p></div>
-                    <div class="button notBin" data-command="6"><p>6</p></div>
+                    <div class="button notBin" data-command="4">4</div>
+                    <div class="button notBin" data-command="5">5</div>
+                    <div class="button notBin" data-command="6">6</div>
                 </div>
                 <div class="row">
-                    <div class="button" data-command="1"><p>1</p></div>
-                    <div class="button notBin" data-command="2"><p>2</p></div>
-                    <div class="button notBin" data-command="3"><p>3</p></div>
+                    <div class="button" data-command="1">1</div>
+                    <div class="button notBin" data-command="2">2</div>
+                    <div class="button notBin" data-command="3">3</div>
                 </div>
                 <div class="row">
-                    <div class="button" data-command="0"><p>0</p></div>
-                    <div class="button" data-command="."><p>.</p></div>
-                    <div class="button spec" data-command="="><p>=</p></div>
+                    <div class="button" data-command="0">0</div>
+                    <div class="button" data-command=".">.</div>
+                    <div class="button spec" data-command="=">=</div>
                 </div>
             </div>
         </div>
 
         <div class="scroll-holder">
-            <div id="clear" class="button spec" data-command="AC"><p>C</p></div>
-            <div class="button spec" data-command="DEL"><p>DEL</p></div>
-            <div class="button" data-command="+"><p>+</p></div>
-            <div class="button" data-command="-"><p>-</p></div>
+            <div id="clear" class="button spec" data-command="AC">C</div>
+            <div class="button spec" data-command="DEL">DEL</div>
+            <div class="button" data-command="+">+</div>
+            <div class="button" data-command="-">-</div>
 
-            <div class="button" data-command="NOT"><p>NOT</p></div>
-            <div class="button" data-command="AND"><p>AND</p></div>
-            <div class="button" data-command="OR"><p>OR</p></div>
-            <div class="button" data-command="XOR"><p>XOR</p></div>
-            <div class="button" data-command="<<"><p><<</p></div>
-            <div class="button" data-command=">>"><p>>></p></div>
-            <div class="button" data-command="R<<"><p>R<<</p></div>
-            <div class="button" data-command="R>>"><p>R>></p></div>
+            <div class="button" data-command="NOT">NOT</div>
+            <div class="button" data-command="AND">AND</div>
+            <div class="button" data-command="OR">OR</div>
+            <div class="button" data-command="XOR">XOR</div>
+            <div class="button" data-command="<<"><<</div>
+            <div class="button" data-command=">>">>></div>
+            <div class="button" data-command="R<<">R<<</div>
+            <div class="button" data-command="R>>">R>></div>
         </div>
     </div>
 </div>
