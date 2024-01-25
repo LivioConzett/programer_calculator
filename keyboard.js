@@ -477,7 +477,7 @@ function doPlus(number1, number2){
     let n = 0;
     let z = 1;
 
-    for(let i = g_bitType-1; i >= 0; i--){
+    for(let i = number1.length-1; i >= 0; i--){
         let n1 = parseInt(number1[i]);
         let n2 = parseInt(number2[i]);
         let bit = n1 + n2 + c;
@@ -523,7 +523,7 @@ function doAnd(number1, number2){
     let z = 1;
     let n = 0;
 
-    for(let i = g_bitType-1; i >= 0; i--){
+    for(let i = number1.length-1; i >= 0; i--){
         let n1 = parseInt(number1[i]);
         let n2 = parseInt(number2[i]);
 
@@ -546,7 +546,7 @@ function doOr(number1, number2){
     let z = 1;
     let n = 0;
 
-    for(let i = g_bitType-1; i >= 0; i--){
+    for(let i = number1.length-1; i >= 0; i--){
         let n1 = parseInt(number1[i]);
         let n2 = parseInt(number2[i]);
 
@@ -569,7 +569,7 @@ function doXor(number1, number2){
     let z = 1;
     let n = 0;
 
-    for(let i = g_bitType-1; i >= 0; i--){
+    for(let i = number1.length-1; i >= 0; i--){
         let n1 = parseInt(number1[i]);
         let n2 = parseInt(number2[i]);
 
@@ -594,6 +594,7 @@ function doRSh(number1, number2){
 
     //todo: need to find a way to convert binary to dec
     // bigint way
+    // or count using my own add and sub methods.
 
     return "";
 }
