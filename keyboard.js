@@ -477,7 +477,7 @@ function doPlus(number1, number2){
     let n = 0;
     let z = 1;
 
-    for(let i = g_bitType; i >= 0; i--){
+    for(let i = g_bitType-1; i >= 0; i--){
         let n1 = parseInt(number1[i]);
         let n2 = parseInt(number2[i]);
         let bit = n1 + n2 + c;
@@ -514,29 +514,61 @@ function doPlus(number1, number2){
 }
 
 function doMinus(number1, number2){
-    return number1 - number2;
+    return "";
 }
 
 function doAnd(number1, number2){
-    return number1 & number2;
-}
 
-function doOr(number1, number2){
-    return number1 | number2;
-}
+    let ans = "";
+    let z = 1;
+    let n = 0;
 
-function doXor(number1, number2){
-    return number1 ^ number2;
-}
+    for(let i = g_bitType-1; i >= 0; i--){
+        let n1 = parseInt(number1[i]);
+        let n2 = parseInt(number2[i]);
 
-function doLSh(number1, number2){
-    let ans =  number1 << number2;
-    console.log(`${number1} << ${number2} == ${ans}`);
+        let bit = n1 + n2;
+
+        if(bit === 2) {
+            ans = "1" + ans;
+            z = 0;
+        }
+        else ans = "0" + ans;
+    }
+
+    if(ans[0] === "1") n = 1;
+    setFlags(n,0,0,z);
     return ans;
 }
 
+function doOr(number1, number2){
+    return "";
+}
+
+function doXor(number1, number2){
+    return "";
+}
+
+function doLSh(number1, number2){
+    return "";
+}
 function doRSh(number1, number2){
-    return number1 >> number2;
+
+    return "";
+}
+
+function doNot(){
+    let bin = convertNumberType(g_inputText, g_numberType, 2);
+    let ans = "";
+
+    for(let i = 0; i < bin.length; i++){
+        if(bin[i] === "1") ans += "0";
+        else if(bin[i] === "0") ans += "1";
+    }
+
+    g_inputText = convertNumberType(ans, 2, g_numberType);
+
+    setInputField();
 }
 
 /**
@@ -570,7 +602,6 @@ function handleClick(button){
         case "-":
         case "+C":
         case "-C":
-        case "NOT":
         case "AND":
         case "OR":
         case "XOR":
@@ -579,6 +610,9 @@ function handleClick(button){
         case "R<<":
         case "R>>":
             setCommand(button.dataset.command)
+            break;
+        case "NOT":
+            doNot();
             break;
         case "DEL":
             inputDelLast();
