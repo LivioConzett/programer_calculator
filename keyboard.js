@@ -565,7 +565,26 @@ function doOr(number1, number2){
 }
 
 function doXor(number1, number2){
-    return "";
+    let ans = "";
+    let z = 1;
+    let n = 0;
+
+    for(let i = g_bitType-1; i >= 0; i--){
+        let n1 = parseInt(number1[i]);
+        let n2 = parseInt(number2[i]);
+
+        let bit = n1 ^ n2;
+
+        if(bit === 1){
+            ans = "1" + ans;
+            z = 0;
+        }
+        else ans = "0" + ans;
+    }
+
+    if(ans[0] === "1") n = 1;
+    setFlags(n,0,0,z);
+    return ans;
 }
 
 function doLSh(number1, number2){
