@@ -592,6 +592,9 @@ function doLSh(number1, number2){
 }
 function doRSh(number1, number2){
 
+    //todo: need to find a way to convert binary to dec
+    // bigint way
+
     return "";
 }
 
