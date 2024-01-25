@@ -59,18 +59,23 @@ body{
     left: 420px;
     width: 1000px;
     height: 200px;
-    background-color: red;
+    font-size: 20px;
+    color: var(--WHITE);
 }
 
 #screen .vertical-holder{
     display: flex;
     flex-direction: column;
-
 }
 
 #screen .horizontal-holder{
     display: flex;
     flex-direction: row;
+}
+
+#screen .command{
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 

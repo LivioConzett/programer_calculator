@@ -5,13 +5,59 @@ const CLEAR_BUTTON = document.querySelector("#keyboard #clear");
 const BIT_TYPE = document.querySelector("#keyboard .bittype-input");
 const OPERATOR_1 = document.getElementById("operator1");
 const OPERATOR_2 = document.getElementById("operator2");
+const ANSWER = document.getElementById("answer");
+const HEXOP1 = document.getElementById("hexOp1");
+const HEXOP2 = document.getElementById("hexOp2");
+const HEXANS = document.getElementById("hexAns");
+const COMMAND = document.getElementById("command");
+
 
 let g_numberType = 16;
-let g_command = "";
+let g_command = "+";
 let g_bitType = 8;
 let g_inputText = "";
-let g_op1 = 0;
-let g_op2 = 0;
+let g_op1 = "";
+let g_op2 = "";
+let g_ans = "";
+
+
+const hexToBinTable = {
+    "0":"0000",
+    "1":"0001",
+    "2":"0010",
+    "3":"0011",
+    "4":"0100",
+    "5":"0101",
+    "6":"0110",
+    "7":"0111",
+    "8":"1000",
+    "9":"1001",
+    "A":"1010",
+    "B":"1011",
+    "C":"1100",
+    "D":"1101",
+    "E":"1110",
+    "F":"1111"
+}
+
+const binToHexTable = {
+    "0000":"0",
+    "0001":"1",
+    "0010":"2",
+    "0011":"3",
+    "0100":"4",
+    "0101":"5",
+    "0110":"6",
+    "0111":"7",
+    "1000":"8",
+    "1001":"9",
+    "1010":"A",
+    "1011":"B",
+    "1100":"C",
+    "1101":"D",
+    "1110":"E",
+    "1111":"F",
+}
 
 
 //todo: Store the g_op as binary string. Write own converter between the different types.
@@ -108,40 +154,55 @@ function formatNumber(number, distance, symbol){
 /**
  * Sets the op1 to what is in the input
  */
-function setOp1(){
-    let number = parseInt(g_inputText, g_numberType);
+function setOp1(input, inputType){
+    let number = convertNumberType(input, inputType, 2);
     number = cutOffNumber(number, g_bitType);
-    g_op1 = number;
-    let text = padBin((number >>> 0).toString(2), g_bitType);
-    OPERATOR_1.innerHTML = formatNumber(text, 8, " ");
+    g_op1 = padBin(number, g_bitType);
+    OPERATOR_1.innerHTML = formatNumber(padBin(g_op1, g_bitType), 8, " ");
+
+    HEXOP1.innerHTML = convertNumberType(g_op1, 2, 16);
+
 }
 
 /**
  * Sets the op2 to what is in the input
  */
-function setOp2(){
-    let number = parseInt(g_inputText, g_numberType);
+function setOp2(input, inputType){
+    let number = convertNumberType(input, inputType, 2);
     number = cutOffNumber(number, g_bitType);
-    g_op2 = number;
-    let text = padBin((number >>> 0).toString(2), g_bitType);
-    OPERATOR_2.innerHTML = formatNumber(text, 8, " ");
+    g_op2 = padBin(number, g_bitType);
+    OPERATOR_2.innerHTML = formatNumber(g_op2, 8, " ");
+
+    HEXOP2.innerHTML = convertNumberType(g_op2, 2, 16);
+}
+
+/**
+ * Set the answer
+ * @param input
+ * @param inputType
+ */
+function setAnswer(input, inputType){
+    let number = convertNumberType(input, inputType, 2);
+    number = cutOffNumber(number, g_bitType);
+    g_ans = padBin(number, g_bitType);
+    ANSWER.innerHTML = formatNumber(g_ans, 8, " ");
+
+    HEXANS.innerHTML = convertNumberType(g_ans, 2, 16);
 }
 
 /**
  * Cut off a number at a certain amount of bits
- * @param number number to cut off
+ * @param number bin string to cut off
  * @param bits after how many bits to cut off
  */
 function cutOffNumber(number, bits){
     let bin = "";
 
     for(let i = 0; i < bits; i++){
-        bin += "1";
+        let bit = number[number.length - 1-i];
+        if(bit) bin = bit + bin
     }
-
-    bin = parseInt(bin, 2);
-
-    return number & bin;
+    return bin;
 }
 
 /**
@@ -149,7 +210,8 @@ function cutOffNumber(number, bits){
  * @param command command to do
  */
 function setCommand(command){
-    console.log(command);
+    g_command = command;
+    COMMAND.innerHTML = command;
 }
 
 /**
@@ -212,8 +274,59 @@ function changeNumberType(button){
  * @param to number type the number should be converted to
  */
 function convertNumberType(number, from, to){
-    let x = parseInt(number, from);
-    return (x >>> 0).toString(to).toUpperCase();
+
+    let bin = "";
+    let ans = "";
+
+    if(from === 2) bin = number;
+    else if(from === 16) bin = convertHexToBin(number);
+
+    if(to === 2) ans = bin;
+    else if(to === 16) ans = convertBinToHex(bin);
+
+    return ans;
+}
+
+/**
+ * Converts a number from hex to bin
+ * @param number number to convert
+ */
+function convertHexToBin(number){
+
+    let text = "";
+
+    for(let i = 0; i < number.length; i++){
+        text = text + hexToBinTable[number[i]];
+    }
+
+    return text;
+}
+
+/**
+ * Convert bin to hex
+ * @param number
+ * @returns {string}
+ */
+function convertBinToHex(number){
+
+    let text = "";
+    let counter = 0;
+    let nibble = "";
+
+    for(let i = 0; i < number.length; i ++){
+
+        nibble += number[i];
+
+        counter ++;
+
+        if(counter >= 4){
+            text += binToHexTable[nibble];
+            counter = 0;
+            nibble = "";
+        }
+    }
+
+    return text;
 }
 
 /**
@@ -255,7 +368,7 @@ function decrementBitType(){
         g_bitType = 1;
     }
 
-    setBtType(null)
+    setBitType(null)
 }
 
 /**
@@ -268,14 +381,14 @@ function incrementBitType(){
         g_bitType = 64;
     }
 
-    setBtType(null);
+    setBitType(null);
 }
 
 /**
  * Set the bittype
  * @param button
  */
-function setBtType(button){
+function setBitType(button){
     const buttons = document.querySelectorAll("#keyboard .bittype");
 
     for(let i = 0; i < buttons.length; i++){
@@ -289,6 +402,9 @@ function setBtType(button){
 
     BIT_TYPE.innerHTML = g_bitType;
 
+    setOp1(g_op1, 2);
+    setOp2(g_op2, 2);
+    setAnswer(g_ans, 2);
 }
 
 
@@ -297,51 +413,67 @@ function setBtType(button){
  */
 function doCalculation(){
 
-    const number1 = parseInt(INPUT_FIELD_PREV.innerHTML, g_numberType);
-    const number2 = parseInt(INPUT_FIELD.innerHTML, g_numberType);
-
     let result = "@";
 
     switch(g_command){
         case "+":
-            result = doPlus(number1, number2);
+            result = doPlus(g_op1, g_op2);
             break;
         case "-":
-            result = doMinus(number1, number2);
+            result = doMinus(g_op1, g_op2);
             break;
         case "AND":
-            result = doAnd(number1, number2);
+            result = doAnd(g_op1, g_op2);
             break;
         case "OR":
-            result = doOr(number1, number2);
+            result = doOr(g_op1, g_op2);
             break;
         case "XOR":
-            result = doXor(number1, number2);
+            result = doXor(g_op1, g_op2);
             break;
         case "<<":
-            result = doLSh(number1, number2);
+            result = doLSh(g_op1, g_op2);
             break;
         case ">>":
-            result = doRSh(number1, number2);
+            result = doRSh(g_op1, g_op2);
             break;
     }
 
     if(result === "@") return;
 
-    //todo: use a mask with AND to cut off all that is not within the realms of the
-    // system (9bit, 16bit, 32bit, 64bit)
-
-    //todo: have to option to show minus or full number -2 vs FFE
-
-    // needed to show the minus correctly in binary
-    let answer = (result >>> 0).toString(g_numberType);
-
-    INPUT_FIELD.innerHTML = "";
+    setAnswer(result, 2);
 
 }
 
 function doPlus(number1, number2){
-    return number1 + number2;
+    let ans = "";
+    let c = 0;
+
+    for(let i = g_bitType; i >= 0; i--){
+        let n1 = parseInt(number1[i]);
+        let n2 = parseInt(number2[i]);
+        let bit = n1 + n2 + c;
+        c = 0;
+
+        switch(bit){
+            case 0:
+                ans = "0" + ans;
+                break;
+            case 1:
+                ans = "1" + ans;
+                break;
+            case 2:
+                ans = "0" + ans;
+                c = 1;
+                break;
+            case 3:
+                ans = "1" + ans;
+                c = 1;
+                break;
+        }
+    }
+
+    return ans;
 }
 
 function doMinus(number1, number2){
@@ -399,6 +531,8 @@ function handleClick(button){
             break;
         case "+":
         case "-":
+        case "+C":
+        case "-C":
         case "NOT":
         case "AND":
         case "OR":
@@ -433,13 +567,13 @@ function handleClick(button){
         case "set16":
         case "set32":
         case "set64":
-            setBtType(button);
+            setBitType(button);
             break;
         case "op1":
-            setOp1();
+            setOp1(g_inputText, g_numberType);
             break;
         case "op2":
-            setOp2();
+            setOp2(g_inputText, g_numberType);
             break;
 
 

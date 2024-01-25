@@ -15,12 +15,23 @@
 
     <div class="vertical-holder">
         <div class="horizontal-holder">
+            <div id="hexOp1">0</div>
+            <div id="command" class="command">+</div>
+            <div id="hexOp2">0</div>
+            <div class="command">=</div>
+            <div id="hexAns">0</div>
+        </div>
+        <div class="horizontal-holder">
             <p>OP1: </p>
-            <div id="operator1" class="operator">00000000 00000000 00000000 00000000</div>
+            <div id="operator1" class="operator">00000000</div>
         </div>
         <div class="horizontal-holder">
             <p>OP2: </p>
-            <div id="operator2" class="operator">00000000 00000000 00000000 00000000</div>
+            <div id="operator2" class="operator">00000000</div>
+        </div>
+        <div class="horizontal-holder">
+            <p>ANS: </p>
+            <div id="answer" class="operator">00000000</div>
         </div>
     </div>
 
@@ -106,7 +117,7 @@
 
         <div class="scroll-holder">
             <div class="button num-type" data-command="BIN">BIN</div>
-            <div class="button num-type" data-command="DEC">DEC</div>
+            <div class="button num-type disable" data-command="DEC">DEC</div>
             <div class="button num-type hold" data-command="HEX">HEX</div>
         </div>
 
