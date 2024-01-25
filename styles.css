@@ -78,6 +78,10 @@ body{
     margin-right: 10px;
 }
 
+#screen table{
+    width: 100px;
+}
+
 
 /* --------- keyboard ------------ */
 

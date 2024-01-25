@@ -10,7 +10,10 @@ const HEXOP1 = document.getElementById("hexOp1");
 const HEXOP2 = document.getElementById("hexOp2");
 const HEXANS = document.getElementById("hexAns");
 const COMMAND = document.getElementById("command");
-
+const FLAG_N = document.getElementById("flag-n");
+const FLAG_C = document.getElementById("flag-c");
+const FLAG_V = document.getElementById("flag-v");
+const FLAG_Z = document.getElementById("flag-z");
 
 let g_numberType = 16;
 let g_command = "+";
@@ -20,6 +23,13 @@ let g_op1 = "";
 let g_op2 = "";
 let g_ans = "";
 
+
+const g_flag = {
+    N:0,
+    V:0,
+    C:0,
+    Z:0
+}
 
 const hexToBinTable = {
     "0":"0000",
@@ -407,6 +417,20 @@ function setBitType(button){
     setAnswer(g_ans, 2);
 }
 
+/**
+ * Set the flags
+ */
+function setFlags(N,C,V,Z){
+    g_flag.N = N;
+    g_flag.C = C;
+    g_flag.V = V;
+    g_flag.Z = Z;
+
+    FLAG_N.innerHTML = N;
+    FLAG_Z.innerHTML = Z;
+    FLAG_V.innerHTML = V;
+    FLAG_C.innerHTML = C;
+}
 
 /**
  * Do the calculation
@@ -448,11 +472,16 @@ function doCalculation(){
 function doPlus(number1, number2){
     let ans = "";
     let c = 0;
+    let prev_c = 0;
+    let v = 0;
+    let n = 0;
+    let z = 1;
 
     for(let i = g_bitType; i >= 0; i--){
         let n1 = parseInt(number1[i]);
         let n2 = parseInt(number2[i]);
         let bit = n1 + n2 + c;
+        prev_c = c;
         c = 0;
 
         switch(bit){
@@ -461,6 +490,7 @@ function doPlus(number1, number2){
                 break;
             case 1:
                 ans = "1" + ans;
+                z = 0;
                 break;
             case 2:
                 ans = "0" + ans;
@@ -468,10 +498,17 @@ function doPlus(number1, number2){
                 break;
             case 3:
                 ans = "1" + ans;
+                z = 0;
                 c = 1;
                 break;
         }
     }
+
+    if(ans[0] === "1") n = 1;
+
+    if(prev_c ^ c) v = 1;
+
+    setFlags(n,c,v,z);
 
     return ans;
 }
