@@ -31,49 +31,6 @@ const g_flag = {
     Z:0
 }
 
-const hexToBinTable = {
-    "0":"0000",
-    "1":"0001",
-    "2":"0010",
-    "3":"0011",
-    "4":"0100",
-    "5":"0101",
-    "6":"0110",
-    "7":"0111",
-    "8":"1000",
-    "9":"1001",
-    "A":"1010",
-    "B":"1011",
-    "C":"1100",
-    "D":"1101",
-    "E":"1110",
-    "F":"1111"
-}
-
-const binToHexTable = {
-    "0000":"0",
-    "0001":"1",
-    "0010":"2",
-    "0011":"3",
-    "0100":"4",
-    "0101":"5",
-    "0110":"6",
-    "0111":"7",
-    "1000":"8",
-    "1001":"9",
-    "1010":"A",
-    "1011":"B",
-    "1100":"C",
-    "1101":"D",
-    "1110":"E",
-    "1111":"F",
-}
-
-
-//todo: Store the g_op as binary string. Write own converter between the different types.
-// write own math functions to do the math bitwise.
-
-
 /**
  * Initialize the keyboard
  */
@@ -140,28 +97,6 @@ function setInputField(){
 }
 
 /**
- * Format a number with symbols
- * @param number number to format
- * @param distance after how many chars should the symbol come
- * @param symbol symbol to place
- */
-function formatNumber(number, distance, symbol){
-    let text = "";
-    let counter = 0;
-
-    for(let i = number.length-1; i >= 0; i--){
-        if(counter >= distance){
-            text = "'" + text;
-            counter = 0;
-        }
-        text = number.charAt(i) + text;
-        counter ++
-    }
-
-    return text;
-}
-
-/**
  * Sets the op1 to what is in the input
  */
 function setOp1(input, inputType){
@@ -201,42 +136,12 @@ function setAnswer(input, inputType){
 }
 
 /**
- * Cut off a number at a certain amount of bits
- * @param number bin string to cut off
- * @param bits after how many bits to cut off
- */
-function cutOffNumber(number, bits){
-    let bin = "";
-
-    for(let i = 0; i < bits; i++){
-        let bit = number[number.length - 1-i];
-        if(bit) bin = bit + bin
-    }
-    return bin;
-}
-
-/**
  * Set the command to do
  * @param command command to do
  */
 function setCommand(command){
     g_command = command;
     COMMAND.innerHTML = command;
-}
-
-/**
- * Pads a number out with 0 in the beginning
- * @param text text to pad
- * @param amount to how many characters should the number be padded out
- */
-function padBin(text, amount){
-    let length = text.length;
-
-    for(let i = length; i < amount; i ++){
-        text = "0"+text;
-    }
-
-    return text;
 }
 
 /**
@@ -275,68 +180,6 @@ function changeNumberType(button){
     }
 
     disableNumButtons();
-}
-
-/**
- * Convert a number from a type to another type
- * @param number number to convert
- * @param from number type the number has
- * @param to number type the number should be converted to
- */
-function convertNumberType(number, from, to){
-
-    let bin = "";
-    let ans = "";
-
-    if(from === 2) bin = number;
-    else if(from === 16) bin = convertHexToBin(number);
-
-    if(to === 2) ans = bin;
-    else if(to === 16) ans = convertBinToHex(bin);
-
-    return ans;
-}
-
-/**
- * Converts a number from hex to bin
- * @param number number to convert
- */
-function convertHexToBin(number){
-
-    let text = "";
-
-    for(let i = 0; i < number.length; i++){
-        text = text + hexToBinTable[number[i]];
-    }
-
-    return text;
-}
-
-/**
- * Convert bin to hex
- * @param number
- * @returns {string}
- */
-function convertBinToHex(number){
-
-    let text = "";
-    let counter = 0;
-    let nibble = "";
-
-    for(let i = 0; i < number.length; i ++){
-
-        nibble += number[i];
-
-        counter ++;
-
-        if(counter >= 4){
-            text += binToHexTable[nibble];
-            counter = 0;
-            nibble = "";
-        }
-    }
-
-    return text;
 }
 
 /**
@@ -441,164 +284,42 @@ function doCalculation(){
 
     switch(g_command){
         case "+":
-            result = doPlus(g_op1, g_op2);
+            result = my_add(g_op1, g_op2);
             break;
         case "-":
-            result = doMinus(g_op1, g_op2);
+            result = my_subtract(g_op1, g_op2);
             break;
         case "AND":
-            result = doAnd(g_op1, g_op2);
+            result = my_and(g_op1, g_op2);
             break;
         case "OR":
-            result = doOr(g_op1, g_op2);
+            result = my_or(g_op1, g_op2);
             break;
         case "XOR":
-            result = doXor(g_op1, g_op2);
+            result = my_xor(g_op1, g_op2);
             break;
         case "<<":
-            result = doLSh(g_op1, g_op2);
+            result = my_leftShift(g_op1, g_op2);
             break;
         case ">>":
-            result = doRSh(g_op1, g_op2);
+            result = my_rightShift(g_op1, g_op2);
+            break;
+        case "R<<":
+            result = my_leftRotate(g_op1, g_op2);
+            break;
+        case "R>>":
+            result = my_rightRotate(g_op1, g_op2);
             break;
     }
 
     if(result === "@") return;
 
     setAnswer(result, 2);
-
 }
 
-function doPlus(number1, number2){
-    let ans = "";
-    let c = 0;
-    let prev_c = 0;
-    let v = 0;
-    let n = 0;
-    let z = 1;
-
-    for(let i = number1.length-1; i >= 0; i--){
-        let n1 = parseInt(number1[i]);
-        let n2 = parseInt(number2[i]);
-        let bit = n1 + n2 + c;
-        prev_c = c;
-        c = 0;
-
-        switch(bit){
-            case 0:
-                ans = "0" + ans;
-                break;
-            case 1:
-                ans = "1" + ans;
-                z = 0;
-                break;
-            case 2:
-                ans = "0" + ans;
-                c = 1;
-                break;
-            case 3:
-                ans = "1" + ans;
-                z = 0;
-                c = 1;
-                break;
-        }
-    }
-
-    if(ans[0] === "1") n = 1;
-
-    if(prev_c ^ c) v = 1;
-
-    setFlags(n,c,v,z);
-
-    return ans;
-}
-
-function doMinus(number1, number2){
-    return "";
-}
-
-function doAnd(number1, number2){
-
-    let ans = "";
-    let z = 1;
-    let n = 0;
-
-    for(let i = number1.length-1; i >= 0; i--){
-        let n1 = parseInt(number1[i]);
-        let n2 = parseInt(number2[i]);
-
-        let bit = n1 + n2;
-
-        if(bit === 2) {
-            ans = "1" + ans;
-            z = 0;
-        }
-        else ans = "0" + ans;
-    }
-
-    if(ans[0] === "1") n = 1;
-    setFlags(n,0,0,z);
-    return ans;
-}
-
-function doOr(number1, number2){
-    let ans = "";
-    let z = 1;
-    let n = 0;
-
-    for(let i = number1.length-1; i >= 0; i--){
-        let n1 = parseInt(number1[i]);
-        let n2 = parseInt(number2[i]);
-
-        let bit = n1 + n2;
-
-        if(bit === 0) ans = "0" + ans;
-        else{
-            ans = "1" + ans;
-            z = 0;
-        }
-    }
-
-    if(ans[0] === "1") n = 1;
-    setFlags(n,0,0,z);
-    return ans;
-}
-
-function doXor(number1, number2){
-    let ans = "";
-    let z = 1;
-    let n = 0;
-
-    for(let i = number1.length-1; i >= 0; i--){
-        let n1 = parseInt(number1[i]);
-        let n2 = parseInt(number2[i]);
-
-        let bit = n1 ^ n2;
-
-        if(bit === 1){
-            ans = "1" + ans;
-            z = 0;
-        }
-        else ans = "0" + ans;
-    }
-
-    if(ans[0] === "1") n = 1;
-    setFlags(n,0,0,z);
-    return ans;
-}
-
-function doLSh(number1, number2){
-    return "";
-}
-function doRSh(number1, number2){
-
-    //todo: need to find a way to convert binary to dec
-    // bigint way
-    // or count using my own add and sub methods.
-
-    return "";
-}
-
+/**
+ * Invert the bits of the number in the input
+ */
 function doNot(){
     let bin = convertNumberType(g_inputText, g_numberType, 2);
     let ans = "";
@@ -735,5 +456,6 @@ function physicalKeyBoardHandler(key){
 
 }
 
+//todo: create ans to input button. copy the answer to the input
 
 init();
