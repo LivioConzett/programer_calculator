@@ -52,6 +52,52 @@ function init(){
 
     BIT_TYPE.innerHTML = g_bitType;
 
+    // set up the flags to be clickable
+    FLAG_V.addEventListener("click", (e) =>{
+        if(g_flag.V === "1"){
+            g_flag.V = "0";
+            FLAG_V.innerHTML = "0";
+        }
+        else{
+            g_flag.V = "1";
+            FLAG_V.innerHTML = "1";
+        }
+    });
+
+    FLAG_N.addEventListener("click", (e) =>{
+        if(g_flag.N === "1"){
+            g_flag.N = "0";
+            FLAG_N.innerHTML = "0";
+        }
+        else{
+            g_flag.N = "1";
+            FLAG_N.innerHTML = "1";
+        }
+    });
+
+    FLAG_C.addEventListener("click", (e) =>{
+        if(g_flag.C === "1"){
+            g_flag.C = "0";
+            FLAG_C.innerHTML = "0";
+        }
+        else{
+            g_flag.C = "1";
+            FLAG_C.innerHTML = "1";
+        }
+    });
+
+    FLAG_Z.addEventListener("click", (e) =>{
+        if(g_flag.Z === "1"){
+            g_flag.Z = "0";
+            FLAG_Z.innerHTML = "0";
+        }
+        else{
+            g_flag.Z = "1";
+            FLAG_Z.innerHTML = "1";
+        }
+    });
+
+
 }
 
 /**
@@ -286,6 +332,9 @@ function doCalculation(){
     switch(g_command){
         case "+":
             result = my_add(g_op1, g_op2);
+            break;
+        case "+C":
+            result = my_addWithCarry(g_op1, g_op2);
             break;
         case "-":
             result = my_subtract(g_op1, g_op2);

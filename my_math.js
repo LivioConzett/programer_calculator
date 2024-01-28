@@ -49,6 +49,56 @@ function my_add(number1, number2){
 }
 
 /**
+ * Sum the two numbers with carry
+ * @param number1
+ * @param number2
+ * @returns {string}
+ */
+function my_addWithCarry(number1, number2){
+    let ans = "";
+    let c = parseInt(g_flag.C);
+    let prev_c = 0;
+    let v = 0;
+    let n = 0;
+    let z = 1;
+
+    for(let i = number1.length-1; i >= 0; i--){
+        let n1 = parseInt(number1[i]);
+        let n2 = parseInt(number2[i]);
+        let bit = n1 + n2 + c;
+        prev_c = c;
+        c = 0;
+
+        switch(bit){
+            case 0:
+                ans = "0" + ans;
+                break;
+            case 1:
+                ans = "1" + ans;
+                z = 0;
+                break;
+            case 2:
+                ans = "0" + ans;
+                c = 1;
+                break;
+            case 3:
+                ans = "1" + ans;
+                z = 0;
+                c = 1;
+                break;
+        }
+    }
+
+    if(ans[0] === "1") n = 1;
+
+    if(prev_c ^ c) v = 1;
+
+    setFlags(n,c,v,z);
+
+    return ans;
+}
+
+/**
  * Sub two numbers
  * @param number1
  * @param number2
@@ -215,7 +265,7 @@ function my_rightShift(number1, number2){
 function my_leftRotate(number1, number2){
     let i = padBin("0", number2.length);
     let increase = padBin("1", number2.length);
-    let n = "0";
+    let n;
     let c = "0";
     let v = "0";
     let z;
