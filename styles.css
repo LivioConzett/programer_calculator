@@ -199,3 +199,9 @@ body{
     background-color: var(--LIGHT_GREY);
     pointer-events: none;
 }
+
+#keyboard .empty{
+    background-color: var(--BACKGROUND);
+    color: var(--BACKGROUND);
+    pointer-events: none;
+}

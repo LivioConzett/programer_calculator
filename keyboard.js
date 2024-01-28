@@ -385,13 +385,7 @@ function doCalculation(){
  */
 function doNot(){
     let bin = convertNumberType(g_inputText, g_numberType, 2);
-    let ans = "";
-
-    for(let i = 0; i < bin.length; i++){
-        if(bin[i] === "1") ans += "0";
-        else if(bin[i] === "0") ans += "1";
-    }
-
+    let ans = my_not(bin);
     g_inputText = convertNumberType(ans, 2, g_numberType);
 
     setInputField();

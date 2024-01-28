@@ -1,4 +1,20 @@
 /**
+ * Invert the bits of a binary string
+ * @param number
+ * @returns {string}
+ */
+function my_not(number){
+    let ans = "";
+
+    for(let i = 0; i < number.length; i++){
+        if(number[i] === "1") ans += "0";
+        else if(number[i] === "0") ans += "1";
+    }
+
+    return ans;
+}
+
+/**
  * Sum the two numbers
  * @param number1
  * @param number2
@@ -105,7 +121,11 @@ function my_addWithCarry(number1, number2){
  * @returns {string}
  */
 function my_subtract(number1, number2){
-    return "";
+
+    number2 = my_not(number2);
+    number2 = my_add(number2, padBin("1", number2.length));
+
+    return my_add(number1, number2);
 }
 
 /**
