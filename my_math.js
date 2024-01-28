@@ -156,10 +156,10 @@ function my_leftShift(number1, number2){
 
     let i = padBin("0", number2.length);
     let increase = padBin("1", number2.length);
-    let n = "0";
+    let n;
     let c = "0";
     let v = "0";
-    let z = "0";
+    let z;
 
     while(i !== number2){
 
@@ -190,7 +190,7 @@ function my_rightShift(number1, number2){
     let n = "0";
     let c = "0";
     let v = "0";
-    let z = "0";
+    let z;
 
     while(i !== number2){
 
@@ -218,7 +218,7 @@ function my_leftRotate(number1, number2){
     let n = "0";
     let c = "0";
     let v = "0";
-    let z = "0";
+    let z;
 
     while(i !== number2){
 
@@ -250,7 +250,7 @@ function my_rightRotate(number1, number2){
     let n = "0";
     let c = "0";
     let v = "0";
-    let z = "0";
+    let z;
 
     while(i !== number2){
 

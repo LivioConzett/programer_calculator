@@ -14,6 +14,7 @@ const FLAG_N = document.getElementById("flag-n");
 const FLAG_C = document.getElementById("flag-c");
 const FLAG_V = document.getElementById("flag-v");
 const FLAG_Z = document.getElementById("flag-z");
+const ANS_HOLD = document.getElementById("ans-hold");
 
 let g_numberType = 16;
 let g_command = "+";
@@ -22,7 +23,7 @@ let g_inputText = "";
 let g_op1 = "";
 let g_op2 = "";
 let g_ans = "";
-
+let g_ansHold = false;
 
 const g_flag = {
     N:0,
@@ -315,6 +316,10 @@ function doCalculation(){
     if(result === "@") return;
 
     setAnswer(result, 2);
+
+    if(g_ansHold){
+        copyAnsToInput();
+    }
 }
 
 /**
@@ -332,6 +337,33 @@ function doNot(){
     g_inputText = convertNumberType(ans, 2, g_numberType);
 
     setInputField();
+}
+
+/**
+ * Copy the answer to the input
+ */
+function copyAnsToInput(){
+
+    g_inputText = convertNumberType(g_ans, 2, g_numberType);
+
+    setInputField();
+    setOp1(g_inputText, g_numberType);
+}
+
+/**
+ * Set the hold for the ans key
+ */
+function setAnsHold(){
+
+    if(g_ansHold){
+        ANS_HOLD.classList.remove("hold");
+        g_ansHold = false;
+    }
+    else{
+        ANS_HOLD.classList.add("hold");
+        g_ansHold = true;
+    }
+
 }
 
 /**
@@ -409,7 +441,12 @@ function handleClick(button){
         case "op2":
             setOp2(g_inputText, g_numberType);
             break;
-
+        case "ANS":
+            copyAnsToInput();
+            break;
+        case "ANS-HOLD":
+            setAnsHold();
+            break;
 
     }
 }
