@@ -2,7 +2,7 @@
 
 const INPUT_FIELD = document.querySelector("#keyboard .input");
 const CLEAR_BUTTON = document.querySelector("#keyboard #clear");
-const BIT_TYPE = document.querySelector("#keyboard .bittype-input");
+// const BIT_TYPE = document.querySelector("#keyboard .bittype-input");
 const OPERATOR_1 = document.getElementById("operator1");
 const OPERATOR_2 = document.getElementById("operator2");
 const ANSWER = document.getElementById("answer");
@@ -50,7 +50,7 @@ function init(){
         physicalKeyBoardHandler(event.key);
     });
 
-    BIT_TYPE.innerHTML = g_bitType;
+    // BIT_TYPE.innerHTML = g_bitType;
 
     // set up the flags to be clickable
     FLAG_V.addEventListener("click", (e) =>{
@@ -125,7 +125,7 @@ function inputDelLast(){
  * Clear the inputfield
  */
 function inputClear(){
-    g_inputText = "";
+    g_inputText = "0";
 
     setInputField();
 }
@@ -184,11 +184,20 @@ function setAnswer(input, inputType){
 
 /**
  * Set the command to do
- * @param command command to do
+ * @param button command to do
  */
-function setCommand(command){
-    g_command = command;
-    COMMAND.innerHTML = command;
+function setCommand(button){
+
+    const buttons = document.querySelectorAll("#keyboard .command");
+
+    for(let i = 0; i < buttons.length; i++){
+        buttons[i].classList.remove("hold");
+    }
+
+    button.classList.add("hold");
+
+    g_command = button.dataset.command;
+    COMMAND.innerHTML = button.dataset.command;
 }
 
 /**
@@ -300,7 +309,7 @@ function setBitType(button){
         g_bitType = parseInt(button.innerHTML);
     }
 
-    BIT_TYPE.innerHTML = g_bitType;
+    //BIT_TYPE.innerHTML = g_bitType;
 
     setOp1(g_op1, 2);
     setOp2(g_op2, 2);
@@ -453,7 +462,7 @@ function handleClick(button){
         case ">>":
         case "R<<":
         case "R>>":
-            setCommand(button.dataset.command)
+            setCommand(button)
             break;
         case "NOT":
             doNot();

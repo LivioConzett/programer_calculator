@@ -211,6 +211,10 @@ function my_leftShift(number1, number2){
     let v = "0";
     let z;
 
+    console.log(number1);
+    console.log(number2);
+
+
     while(i !== number2){
 
         number1 = number1 + "0";
